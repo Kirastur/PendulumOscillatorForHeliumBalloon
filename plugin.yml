@@ -1,0 +1,11 @@
+name: PendulumOscillatorForHeliumBalloon
+version: 1.9
+description: A demo howto make custom oscillators for HeliumBalloon
+author: Kirastur
+website: https://github.com/Kirastur/PendulumOscillatorForHeliumBalloon
+
+
+api-version: 1.17
+load: POSTWORLD
+main: de.polarwolf.pendulumoscillator.Main
+depend: [HeliumBalloon]
