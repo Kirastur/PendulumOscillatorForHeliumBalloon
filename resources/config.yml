@@ -9,8 +9,7 @@
 #   https://www.spigotmc.org/resources/heliumballoon.95902
 #
 #
-# In this example we use the "oscillatorHint" attribute of the rule
-# to mark our custom oscillator
+# In this example we use a custom oscillator
 #
 # The following configuration is loaded as part of the Balloon Config.
 # It offers a mincart loaded ith an emerald
@@ -21,8 +20,10 @@
 
 rules:
     pendulum:
-       oscillatorHint: "pendulum"
        minecartDelay: 0
+#       pendulum_amplitude: 60.0
+#       pendulum_length: 5.0
+#       pendulum_duration: 3.0
        
 templates:
     pendulum:
@@ -36,6 +37,7 @@ templates:
 rotators:
     pendulum:
         template: pendulum
+        behavior: pendulum
         world: world
         x: -160
         y: 89

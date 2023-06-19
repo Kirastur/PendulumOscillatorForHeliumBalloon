@@ -3,17 +3,21 @@ package de.polarwolf.pendulumoscillator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
-import de.polarwolf.heliumballoon.oscillators.SimpleOscillator;
+import de.polarwolf.heliumballoon.behavior.oscillators.SimpleOscillator;
+import de.polarwolf.heliumballoon.config.rules.ConfigRule;
+import de.polarwolf.heliumballoon.exception.BalloonException;
 
 public class PendulumOscillator extends SimpleOscillator {
 
 	protected static final int MAX_MICROSTEPS = 10000;
 
-	protected final Plugin plugin;
+	public static final double DEFAULT_PENDULUM_LENGTH = 5.0; // in Blocks
+	public static final double DEFAULT_PENDULUM_AMPLITUDE = 60.0; // in Degree
+	public static final double DEFAULT_PENDULUM_DURATION = 3.0; // in Seconds
+
 	protected final double pendulumLength;
 	protected final double pendulumAmplitude;
 	protected final double pendulumDuration;
@@ -23,11 +27,10 @@ public class PendulumOscillator extends SimpleOscillator {
 	protected final List<Double> deltaXs = new ArrayList<>();
 	protected final List<Double> deltaYs = new ArrayList<>();
 
-	public PendulumOscillator(Plugin plugin, double pendulumLength, double pendulumAmplitude, double pendulumDuration) {
-		this.plugin = plugin;
-		this.pendulumLength = pendulumLength;
-		this.pendulumAmplitude = pendulumAmplitude;
-		this.pendulumDuration = pendulumDuration;
+	public PendulumOscillator(ConfigRule rule) throws BalloonException {
+		this.pendulumLength = rule.getValueDouble(PendulumRuleParams.PENDULUM_LENGTH, DEFAULT_PENDULUM_LENGTH);
+		this.pendulumAmplitude = rule.getValueDouble(PendulumRuleParams.PENDULUM_AMPLITUDE, DEFAULT_PENDULUM_AMPLITUDE);
+		this.pendulumDuration = rule.getValueDouble(PendulumRuleParams.PENDULUM_DURATION, DEFAULT_PENDULUM_DURATION);
 	}
 
 	// Here I will do the mathematics.
@@ -103,7 +106,7 @@ public class PendulumOscillator extends SimpleOscillator {
 			addMinecartSpin(new EulerAngle(0, 0, -angles.get(i)));
 		}
 
-		// Move down, include topmost.		
+		// Move down, include topmost.
 		for (int i = 0; i < angles.size(); i++) {
 			addDeflection(new Vector(-deltaXs.get(i), deltaYs.get(i), 0));
 			addMinecartSpin(new EulerAngle(0, 0, -angles.get(i)));
